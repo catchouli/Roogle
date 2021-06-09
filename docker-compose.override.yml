@@ -1,0 +1,6 @@
+version: '3.4'
+
+services:
+  roogle.rooglespider:
+    environment:
+      - DOTNET_ENVIRONMENT=Development

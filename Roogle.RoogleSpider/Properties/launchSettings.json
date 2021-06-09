@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RoogleSpider": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
