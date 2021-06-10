@@ -1,0 +1,19 @@
+﻿@{
+  Layout = "_Layout";
+  ViewData["Title"] = "Home";
+}
+
+<div id="search-home">
+  <a id="roogle-logo" href="/">
+    <img src="~/images/roogle_logo.png">
+  </a>
+  <a href="/" class="search-links">Search</a>
+  <a href="?mode=RecentUpdates" class="search-links">Recent Updates</a>
+  <a href="?mode=RandomPages" class="search-links">Random Pages</a>
+  <form>
+    <input type="text" id="search-query" name="searchQuery"><br>
+    <button type="submit">Roogle Search</button>
+    <button type="submit" name="lucky" value="1">I'm Feeling Lucky</button>
+  </form>
+</div>
+

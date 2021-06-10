@@ -4,3 +4,7 @@ services:
   roogle.rooglespider:
     environment:
       - DOTNET_ENVIRONMENT=Development
+
+  roogle.rooglefrontend:
+    environment:
+      - DOTNET_ENVIRONMENT=Development

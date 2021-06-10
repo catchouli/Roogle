@@ -1,0 +1,96 @@
+﻿/* the homepage */
+
+#search-home {
+  text-align: center;
+}
+
+#search-home .search-links {
+  margin: 0.5em;
+}
+
+#search-home #roogle-logo {
+  display: block;
+}
+
+#search-home #search-query {
+  width: 400px;
+  margin: 0.5em;
+}
+
+/* the results page */
+
+#top-bar #roogle-logo {
+  display: inline-block;
+  width: 150px;
+}
+
+#top-bar #roogle-logo img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#top-bar form {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 17px;
+  width: 400px;
+}
+
+#top-bar form input {
+  width: 330px;
+}
+
+#top-bar .search-links {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0.5em;
+  margin-top: 17px;
+}
+
+#status-bar {
+  position: relative;
+  background: #f1f6f9;
+  border-top: solid 1px #c7cde1;
+}
+
+#status-bar p {
+  margin: 0.25em;
+  padding-bottom: 0.25em;
+}
+
+#status-bar #status-sidebar {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+#results .result {
+  margin: 1em;
+  width: 600px;
+}
+
+#results p {
+  margin: 0;
+}
+
+#results .result .url {
+  color: green;
+}
+
+#pagination {
+  width: 600px;
+  margin: 0 auto;
+}
+
+#pagination > div {
+  display: inline-block;
+  text-align: center;
+}
+
+#pagination > a {
+  display: block;
+}
+
+#pagination > div img {
+  max-height: 35px;
+}

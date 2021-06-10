@@ -1,0 +1,102 @@
+﻿@using Roogle.RoogleSpider.Db;
+@using Roogle.RoogleFrontend.Models;
+@{
+  Layout = "_Layout";
+  ViewData["Title"] = "SearchResults";
+
+  var results = ViewBag.Results as SearchResults;
+  var requestDuration = (new Random()).Next(10, 80);
+
+  int resultsStart = results.CurrentPage * results.ResultsPerPage + 1;
+  int resultsEnd = (results.CurrentPage + 1) * results.ResultsPerPage;
+
+  int displayPage = results.CurrentPage + 1;
+  int totalDisplayPages = (int)Math.Ceiling((float)results.TotalResults / results.ResultsPerPage) + 1;
+
+  string searchQuery = (ViewBag.SearchQuery as string) ?? "";
+}
+
+<div id="top-bar">
+  <a id="roogle-logo" href="/">
+    <img src="~/images/roogle_logo.png">
+  </a>
+  <form>
+    <input type="text" id="search-query" name="searchQuery" value="@searchQuery">
+    <button type="submit">Search</button>
+  </form>
+  <a href="/" class="search-links">Search</a>
+  <a href="?mode=RecentUpdates" class="search-links">Recent Updates</a>
+  <a href="?mode=RandomPages" class="search-links">Random Pages</a>
+</div>
+<div id="status-bar">
+  <p><b>@ViewBag.ResultMode</b></p>
+  <span id="status-sidebar">
+    <p>Results <b>@resultsStart - @resultsEnd</b> of about <b>@results.TotalResults</b> (<b>0.@requestDuration</b> seconds)</p>
+  </span>
+</div>
+<div id="results">
+  @foreach (var result in results.Pages)
+  {
+    <div class="result">
+      <a href="@result.Url">@result.Title</a>
+      @{ 
+        var snippet = result.Contents.Length > 255 ? result.Contents.Substring(0, 255) : result.Contents;
+      }
+      <p style="margin: 0.2em;">@result.UpdatedTime ... @snippet</p>
+      <p class="url">@result.Url</p>
+    </div>
+  }
+</div>
+<div id="pagination">
+  <div>
+    @if (results.CurrentPage > 0) {
+      string resultMode = ViewBag.ResultMode.Replace(" ", "");
+      string href = $"/?mode={resultMode}&page={displayPage-1}";
+      if (ViewBag.SearchQuery != null)
+        href += $"&searchQuery={ViewBag.SearchQuery as string}";
+      <a href="@href"><img src="~/images/lt.png"><br>Previous</a>
+    }
+    else
+    {
+      <img src="~/images/lt.png"><br><p style="margin: 0;">Previous</p>
+    }
+  </div>
+  <div>
+    <img src="~/images/ro.png"><br>&nbsp;
+  </div>
+  @for (int i = 1; i < totalDisplayPages; ++i)
+  {
+    if (i == displayPage)
+    {
+      <div>
+        <img src="~/images/o.png"><br><p style="margin: 0;">@i</p>
+      </div>
+    }
+    else
+    {
+      string resultMode = ViewBag.ResultMode.Replace(" ", "");
+      string href = $"/?mode={resultMode}&page={i}";
+      if (ViewBag.SearchQuery != null)
+        href += $"&searchQuery={ViewBag.SearchQuery as string}";
+      <div>
+        <a href="@href"><img src="~/images/o.png"><br>@i</a>
+      </div>
+    }
+  }
+  <div>
+    <img src="~/images/gle.png"><br>&nbsp;
+  </div>
+  <div>
+    @if (resultsEnd < @results.TotalResults) {
+      string resultMode = ViewBag.ResultMode.Replace(" ", "");
+      string href = $"/?mode={resultMode}&page={displayPage+1}";
+      if (ViewBag.SearchQuery != null)
+        href += $"&searchQuery={ViewBag.SearchQuery as string}";
+      <a href="@href"><img src="~/images/gt.png"><br>Next</a>
+    }
+    else
+    {
+      <img src="~/images/gt.png"><br><p style="margin: 0;">Next</p>
+    }
+  </div>
+</div>
