@@ -85,6 +85,7 @@ namespace Roogle.RoogleSpider
             {
               Id = Guid.NewGuid(),
               Url = StartPage,
+              ContentType = "",
               Title = "",
               Contents = "",
               PageHash = 0,

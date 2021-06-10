@@ -27,4 +27,8 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Roogle.DataStorage\Roogle.DataStorage.csproj" />
+  </ItemGroup>
+
 </Project>

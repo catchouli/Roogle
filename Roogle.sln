@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roogle.RoogleSpider", "Roogle.RoogleSpider\Roogle.RoogleSpider.csproj", "{A0BD0CDF-FF46-4F27-A7DF-C1E95AF1DC69}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{84FC7DCB-5620-46F3-BDB9-84D8FD2A3F21}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roogle.RoogleSpider", "Roogle.RoogleSpider\Roogle.RoogleSpider.csproj", "{14CE6725-3D3B-4F66-82E0-04ABCD890382}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roogle.DataStorage", "Roogle.DataStorage\Roogle.DataStorage.csproj", "{C631810B-6494-4674-96A8-09EBAC94B261}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A0BD0CDF-FF46-4F27-A7DF-C1E95AF1DC69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0BD0CDF-FF46-4F27-A7DF-C1E95AF1DC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0BD0CDF-FF46-4F27-A7DF-C1E95AF1DC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0BD0CDF-FF46-4F27-A7DF-C1E95AF1DC69}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84FC7DCB-5620-46F3-BDB9-84D8FD2A3F21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{84FC7DCB-5620-46F3-BDB9-84D8FD2A3F21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84FC7DCB-5620-46F3-BDB9-84D8FD2A3F21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84FC7DCB-5620-46F3-BDB9-84D8FD2A3F21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14CE6725-3D3B-4F66-82E0-04ABCD890382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14CE6725-3D3B-4F66-82E0-04ABCD890382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14CE6725-3D3B-4F66-82E0-04ABCD890382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14CE6725-3D3B-4F66-82E0-04ABCD890382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C631810B-6494-4674-96A8-09EBAC94B261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C631810B-6494-4674-96A8-09EBAC94B261}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C631810B-6494-4674-96A8-09EBAC94B261}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C631810B-6494-4674-96A8-09EBAC94B261}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

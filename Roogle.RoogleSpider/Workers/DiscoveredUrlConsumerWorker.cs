@@ -82,6 +82,7 @@ namespace Roogle.RoogleSpider.Workers
         {
           Id = Guid.NewGuid(),
           Url = discoveredLink.To,
+          ContentType = "",
           Contents = "",
           Title = "",
           PageHash = 0,
