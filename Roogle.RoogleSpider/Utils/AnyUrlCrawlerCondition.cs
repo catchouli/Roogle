@@ -1,4 +1,4 @@
-﻿namespace Roogle.RoogleSpider
+﻿namespace Roogle.RoogleSpider.Utils
 {
   /// <summary>
   /// A url crawler condition that crawls any url

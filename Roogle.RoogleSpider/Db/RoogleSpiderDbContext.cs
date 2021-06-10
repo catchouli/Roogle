@@ -19,5 +19,10 @@ namespace Roogle.RoogleSpider.Db
     /// Pages that have been seen
     /// </summary>
     public DbSet<Page> Pages { get; set; }
+
+    /// <summary>
+    /// Links that have been seen
+    /// </summary>
+    public DbSet<Link> Links { get; set; }
   }
 }

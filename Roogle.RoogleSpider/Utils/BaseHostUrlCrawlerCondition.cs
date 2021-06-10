@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Roogle.RoogleSpider
+namespace Roogle.RoogleSpider.Utils
 {
   /// <summary>
   /// A url crawler condition class that only crawls urls from a given base hostname
@@ -36,7 +36,7 @@ namespace Roogle.RoogleSpider
       // Hacky way of getting the last n parts
       var uriHostParts = uri.Host.Split('.').Reverse().Take(_requiredHostParts.Length).Reverse();
 
-      return Enumerable.SequenceEqual(uriHostParts, _requiredHostParts);
+      return uriHostParts.SequenceEqual(_requiredHostParts);
     }
   }
 }

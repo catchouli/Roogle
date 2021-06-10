@@ -1,4 +1,4 @@
-﻿namespace Roogle.RoogleSpider
+﻿namespace Roogle.RoogleSpider.Utils
 {
   /// <summary>
   /// An interface that indicates whether or not a given url should be called
