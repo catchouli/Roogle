@@ -54,6 +54,8 @@ namespace Roogle.RoogleSpider.Workers
     /// </summary>
     public void ThreadProc()
     {
+      Log.Logger.Information("Starting {className} ({threadId})", nameof(ScrapedPageConsumerWorker), Thread.CurrentThread.ManagedThreadId);
+
       while (!_cancellationToken.IsCancellationRequested)
       {
         while (_pagesScrapedQueue.Queue.TryDequeue(out var scrapedPage))
@@ -63,6 +65,8 @@ namespace Roogle.RoogleSpider.Workers
 
         Thread.Sleep(100);
       }
+
+      Log.Logger.Information("{className} thread {threadId} edited", nameof(ScrapedPageConsumerWorker), Thread.CurrentThread.ManagedThreadId);
     }
 
     /// <summary>

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Roogle.RoogleSpider.Db;
 
 namespace Roogle.RoogleSpider.Migrations
 {
     [DbContext(typeof(RoogleSpiderDbContext))]
-    partial class RoogleSpiderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210615151923_ChangePageRankDirtyToUpdateTime")]
+    partial class ChangePageRankDirtyToUpdateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,27 +88,6 @@ namespace Roogle.RoogleSpider.Migrations
                         .IsUnique();
 
                     b.ToTable("Pages");
-                });
-
-            modelBuilder.Entity("Roogle.RoogleSpider.Db.SearchIndexEntry", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("Page")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Word")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Word", "Page")
-                        .IsUnique();
-
-                    b.ToTable("SearchIndex");
                 });
 #pragma warning restore 612, 618
         }

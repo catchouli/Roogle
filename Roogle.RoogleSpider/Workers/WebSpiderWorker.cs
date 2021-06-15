@@ -24,6 +24,7 @@ namespace Roogle.RoogleSpider.Workers
     /// <summary>
     /// Allowed content types
     /// </summary>
+    /// TODO: we could change this via config
     public static readonly HashSet<string> AllowedContentTypes = new HashSet<string> { "text/html" };
 
     /// <summary>
@@ -80,6 +81,8 @@ namespace Roogle.RoogleSpider.Workers
     /// </summary>
     public void ThreadProc()
     {
+      Log.Logger.Information("Starting {className} ({threadId})", nameof(WebSpiderWorker), Thread.CurrentThread.ManagedThreadId);
+
       while (!_cancellationToken.IsCancellationRequested)
       {
         // Continue until we run out of urls to crawl
@@ -92,7 +95,7 @@ namespace Roogle.RoogleSpider.Workers
         Thread.Sleep(100);
       }
 
-      Log.Logger.Information("Web spider thread {threadId} edited", Thread.CurrentThread.ManagedThreadId);
+      Log.Logger.Information("{className} thread {threadId} edited", nameof(WebSpiderWorker), Thread.CurrentThread.ManagedThreadId);
     }
 
     /// <summary>

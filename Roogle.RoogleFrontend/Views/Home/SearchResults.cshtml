@@ -2,7 +2,7 @@
 @using Roogle.RoogleFrontend.Models;
 @{
   Layout = "_Layout";
-  ViewData["Title"] = "SearchResults";
+  ViewData["Title"] = "Search Results";
 
   var results = ViewBag.Results as SearchResults;
   var requestDuration = (new Random()).Next(10, 80);
@@ -64,7 +64,7 @@
   <div>
     <img src="~/images/ro.png"><br>&nbsp;
   </div>
-  @for (int i = 1; i < totalDisplayPages; ++i)
+  @for (int i = 1; i <= totalDisplayPages; ++i)
   {
     if (i == displayPage)
     {

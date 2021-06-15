@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Roogle.RoogleSpider.Db;
 
 namespace Roogle.RoogleSpider.Migrations
 {
     [DbContext(typeof(RoogleSpiderDbContext))]
-    partial class RoogleSpiderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210615162306_FixSearchIndexIndex")]
+    partial class FixSearchIndexIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -24,5 +24,11 @@ namespace Roogle.RoogleSpider.Db
     /// Links that have been seen
     /// </summary>
     public DbSet<Link> Links { get; set; }
+
+    /// <summary>
+    /// The search index
+    /// </summary>
+    public DbSet<SearchIndexEntry> SearchIndex { get; set; }
+
   }
 }

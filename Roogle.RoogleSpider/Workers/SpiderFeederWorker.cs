@@ -69,6 +69,8 @@ namespace Roogle.RoogleSpider.Workers
     /// </summary>
     public void ThreadProc()
     {
+      Log.Logger.Information("Starting {className} ({threadId})", nameof(SpiderFeederWorker), Thread.CurrentThread.ManagedThreadId);
+
       while (!_cancellationToken.IsCancellationRequested)
       {
         if (_pagesToScrapeQueue.Queue.Count < _maxItemsInQueue)

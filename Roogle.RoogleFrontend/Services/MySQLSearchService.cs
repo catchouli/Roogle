@@ -4,6 +4,7 @@ using Roogle.RoogleSpider.Db;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Roogle.RoogleFrontend.Services
 {
@@ -26,6 +27,11 @@ namespace Roogle.RoogleFrontend.Services
     /// The random number generator
     /// </summary>
     private readonly Random _random;
+
+    /// <summary>
+    /// The regex for stripping non-alphanumeric characters
+    /// </summary>
+    private readonly Regex _nonAlphanumericRegex = new Regex("[^A-z0-9]", RegexOptions.Compiled);
 
     /// <summary>
     /// Create the mysql search service
@@ -91,12 +97,26 @@ namespace Roogle.RoogleFrontend.Services
     /// <inheritdoc/>
     public SearchResults Search(string query, int page)
     {
-      int count = _dbContext.Pages
-        .Where(page => EF.Functions.Like(page.ContentType, "text/html%"))
-        .Count();
+      // Convert query to uppercase words
+      var queryWords = _nonAlphanumericRegex.Replace(query, " ")
+        .ToUpperInvariant()
+        .Split(' ')
+        .Where(word => !string.IsNullOrWhiteSpace(word))
+        .ToHashSet();
 
+      // Select pages that contain all provided words
+      var pageIds = _dbContext.SearchIndex
+        .Where(entry => queryWords.Contains(entry.Word))
+        .GroupBy(entry => entry.Page)
+        .Select(g => new { Id = g.Key, Count = g.Count() })
+        .Where(g => g.Count == queryWords.Count)
+        .Select(g => g.Id)
+        .ToHashSet();
+
+      // Select pages and do pagination
       var pages = _dbContext.Pages
-        .Where(page => EF.Functions.Like(page.ContentType, "text/html%"))
+        .Where(page => pageIds.Contains(page.Id))
+        .OrderByDescending(page => page.PageRank)
         .Skip(page * ResultsPerPage)
         .Take(ResultsPerPage)
         .ToList();
@@ -105,7 +125,7 @@ namespace Roogle.RoogleFrontend.Services
       {
         Pages = pages,
         CurrentPage = page,
-        TotalResults = count,
+        TotalResults = pageIds.Count,
         ResultsPerPage = ResultsPerPage
       };
     }

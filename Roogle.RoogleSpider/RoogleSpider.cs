@@ -73,6 +73,8 @@ namespace Roogle.RoogleSpider
           services.AddSingleton<ISpiderFeederService, SpiderFeederService>();
           services.AddSingleton<IScrapedPageConsumerService, ScrapedPageConsumerService>();
           services.AddSingleton<IDiscoveredUrlConsumerService, DiscoveredUrlConsumerService>();
+          services.AddSingleton<IPageRankerService, PageRankerService>();
+          services.AddSingleton<IPageIndexerService, PageIndexerService>();
 
           // Build service provider
           var serviceProvider = services.BuildServiceProvider();
@@ -96,8 +98,8 @@ namespace Roogle.RoogleSpider
               PageRank = 0,
               ExpiryTime = DateTime.Now,
               UpdatedTime = DateTime.Now,
-              ContentsChanged = false,
-              PageRankDirty = false
+              PageRankUpdatedTime = DateTime.MinValue,
+              ContentsChanged = false
             });
             dbContext.SaveChanges();
           }
@@ -107,6 +109,8 @@ namespace Roogle.RoogleSpider
           serviceProvider.GetRequiredService<ISpiderFeederService>().StartWorkers();
           serviceProvider.GetRequiredService<IScrapedPageConsumerService>().StartWorkers();
           serviceProvider.GetRequiredService<IDiscoveredUrlConsumerService>().StartWorkers();
+          serviceProvider.GetRequiredService<IPageIndexerService>().StartWorkers();
+          serviceProvider.GetRequiredService<IPageRankerService>().StartWorkers();
         }).Build();
 
       await host.RunAsync();

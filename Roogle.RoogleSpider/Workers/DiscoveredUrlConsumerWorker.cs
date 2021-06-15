@@ -52,6 +52,8 @@ namespace Roogle.RoogleSpider.Workers
     /// </summary>
     public void ThreadProc()
     {
+      Log.Logger.Information("Starting {className} ({threadId})", nameof(DiscoveredUrlConsumerWorker), Thread.CurrentThread.ManagedThreadId);
+
       while (!_cancellationToken.IsCancellationRequested)
       {
         while (_linksDiscoveredQueue.Queue.TryDequeue(out var discoveredLink))
@@ -62,6 +64,8 @@ namespace Roogle.RoogleSpider.Workers
 
         Thread.Sleep(100);
       }
+
+      Log.Logger.Information("{className} thread {threadId} edited", nameof(DiscoveredUrlConsumerWorker), Thread.CurrentThread.ManagedThreadId);
     }
 
     /// <summary>
@@ -89,8 +93,8 @@ namespace Roogle.RoogleSpider.Workers
           PageRank = 0,
           ExpiryTime = DateTime.Now,
           UpdatedTime = DateTime.Now,
-          ContentsChanged = false,
-          PageRankDirty = false
+          PageRankUpdatedTime = DateTime.MinValue,
+          ContentsChanged = false
         });
         _dbContext.SaveChanges();
       }

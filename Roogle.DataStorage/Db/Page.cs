@@ -50,7 +50,8 @@ namespace Roogle.RoogleSpider.Db
     public int PageRank { get; set; }
 
     /// <summary>
-    /// The expiry time
+    /// The expiry time for our cache of the page contents,
+    /// after which time the spider will crawl the page again
     /// </summary>
     [Required]
     public DateTime ExpiryTime { get; set; }
@@ -62,15 +63,15 @@ namespace Roogle.RoogleSpider.Db
     public DateTime UpdatedTime { get; set; }
 
     /// <summary>
+    /// The last time the search rank of this page was updated
+    /// </summary>
+    [Required]
+    public DateTime PageRankUpdatedTime { get; set; }
+
+    /// <summary>
     /// Whether the contents of this page have changed and the ngrams need to be updated
     /// </summary>
     [Required]
     public bool ContentsChanged { get; set; }
-
-    /// <summary>
-    /// Whether of the pagerank of this page needs updating
-    /// </summary>
-    [Required]
-    public bool PageRankDirty { get; set; }
   }
 }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Roogle.RoogleSpider.Db;
 
 namespace Roogle.RoogleSpider.Migrations
 {
     [DbContext(typeof(RoogleSpiderDbContext))]
-    partial class RoogleSpiderDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210615162132_AddSearchIndex")]
+    partial class AddSearchIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,11 +101,11 @@ namespace Roogle.RoogleSpider.Migrations
 
                     b.Property<string>("Word")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Word", "Page")
+                    b.HasIndex("Page")
                         .IsUnique();
 
                     b.ToTable("SearchIndex");
