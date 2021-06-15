@@ -75,6 +75,7 @@ namespace Roogle.RoogleSpider
           services.AddSingleton<IDiscoveredUrlConsumerService, DiscoveredUrlConsumerService>();
           services.AddSingleton<IPageRankerService, PageRankerService>();
           services.AddSingleton<IPageIndexerService, PageIndexerService>();
+          services.AddSingleton<ICanonicalUrlService, CanonicalUrlService>();
 
           // Build service provider
           var serviceProvider = services.BuildServiceProvider();

@@ -18,11 +18,12 @@ namespace Roogle.RoogleSpider.Services
     /// <param name="dbContext">The db context</param>
     /// <param name="urlsDiscoveredQueue">The queue for recieving discovered urls to</param>
     /// <param name="crawlerCondition">The url crawler condition that stops us crawling the whole web</param>
+    /// <param name="urlService">The url canonicalization service</param>
     public DiscoveredUrlConsumerService(RoogleSpiderDbContext dbContext, LinksDiscoveredQueue urlsDiscoveredQueue,
-      IUrlCrawlerCondition crawlerCondition)
+      IUrlCrawlerCondition crawlerCondition, ICanonicalUrlService urlService)
     {
       Worker = new DiscoveredUrlConsumerWorker(CancellationTokenSource.Token, dbContext, urlsDiscoveredQueue,
-        crawlerCondition);
+        crawlerCondition, urlService);
     }
   }
 }

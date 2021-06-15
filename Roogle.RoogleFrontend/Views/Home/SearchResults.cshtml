@@ -35,6 +35,10 @@
   </span>
 </div>
 <div id="results">
+  @if (results.TotalResults == 0)
+  {
+    <p>Nobody here but us chickens!</p>
+  }
   @foreach (var result in results.Pages)
   {
     <div class="result">

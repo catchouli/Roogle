@@ -1,6 +1,7 @@
 ﻿using Roogle.RoogleSpider.Db;
 using Roogle.RoogleSpider.Models;
 using Roogle.RoogleSpider.Queues;
+using Roogle.RoogleSpider.Services;
 using Roogle.RoogleSpider.Utils;
 using Serilog;
 using System;
@@ -36,15 +37,21 @@ namespace Roogle.RoogleSpider.Workers
     private readonly IUrlCrawlerCondition _crawlerCondition;
 
     /// <summary>
+    /// The url canonicalization service
+    /// </summary>
+    private readonly ICanonicalUrlService _urlService;
+
+    /// <summary>
     /// Constructor
     /// </summary>
     public DiscoveredUrlConsumerWorker(CancellationToken cancellationToken, RoogleSpiderDbContext dbContext,
-      LinksDiscoveredQueue linksDiscoveredQueue, IUrlCrawlerCondition crawlerCondition)
+      LinksDiscoveredQueue linksDiscoveredQueue, IUrlCrawlerCondition crawlerCondition, ICanonicalUrlService urlService)
     {
       _cancellationToken = cancellationToken;
       _dbContext = dbContext;
       _linksDiscoveredQueue = linksDiscoveredQueue;
       _crawlerCondition = crawlerCondition;
+      _urlService = urlService;
     }
 
     /// <summary>
@@ -75,6 +82,10 @@ namespace Roogle.RoogleSpider.Workers
     public void ProcessDiscoveredLink((string From, string To) discoveredLink)
     {
       Log.Information("Processing discovered url {discoveredLink}", discoveredLink);
+
+      // Remove anchors and etc from the links so we don't end up with duplicates in the database
+      discoveredLink.From = _urlService.CanonicalizeUrl(discoveredLink.From);
+      discoveredLink.To = _urlService.CanonicalizeUrl(discoveredLink.To);
 
       // Check if the linked page is already in the db and add it if not
       if (!_dbContext.Pages.Any(page => page.Url == discoveredLink.To))
