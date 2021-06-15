@@ -64,7 +64,13 @@
   <div>
     <img src="~/images/ro.png"><br>&nbsp;
   </div>
-  @for (int i = 1; i <= totalDisplayPages; ++i)
+  @if (totalDisplayPages == 1)
+  {
+    <div>
+      <img src="~/images/o.png"><br><p style="margin: 0;">0</p>
+    </div>
+  }
+  @for (int i = 1; i < totalDisplayPages; ++i)
   {
     if (i == displayPage)
     {
