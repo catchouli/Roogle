@@ -1,4 +1,5 @@
-﻿using Roogle.RoogleFrontend.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Roogle.RoogleFrontend.Models;
 using Roogle.RoogleSpider.Db;
 using System;
 using System.Collections.Generic;
@@ -40,14 +41,14 @@ namespace Roogle.RoogleFrontend.Services
     public SearchResults GetRandomPages(int page)
     {
       int count = _dbContext.Pages
-        .Where(page => page.ContentType == "text/html")
+        .Where(page => EF.Functions.Like(page.ContentType, "text/html%"))
         .Count();
 
       // A random offset for random pages
-      int offset = _random.Next(0, count - ResultsPerPage);
+      int offset = _random.Next(0, Math.Max(0, count - ResultsPerPage));
 
       var pages = _dbContext.Pages
-        .Where(page => page.ContentType == "text/html")
+        .Where(page => EF.Functions.Like(page.ContentType, "text/html%"))
         .Skip(offset)
         .Take(ResultsPerPage)
         .ToList();
@@ -68,11 +69,11 @@ namespace Roogle.RoogleFrontend.Services
     public SearchResults GetRecentUpdates(int page)
     {
       int count = _dbContext.Pages
-        .Where(page => page.ContentType == "text/html")
+        .Where(page => EF.Functions.Like(page.ContentType, "text/html%"))
         .Count();
 
       var pages = _dbContext.Pages
-        .Where(page => page.ContentType == "text/html")
+        .Where(page => EF.Functions.Like(page.ContentType, "text/html%"))
         .OrderByDescending(page => page.UpdatedTime)
         .Skip(page * ResultsPerPage)
         .Take(ResultsPerPage)
@@ -91,11 +92,11 @@ namespace Roogle.RoogleFrontend.Services
     public SearchResults Search(string query, int page)
     {
       int count = _dbContext.Pages
-        .Where(page => page.ContentType == "text/html")
+        .Where(page => EF.Functions.Like(page.ContentType, "text/html%"))
         .Count();
 
       var pages = _dbContext.Pages
-        .Where(page => page.ContentType == "text/html")
+        .Where(page => EF.Functions.Like(page.ContentType, "text/html%"))
         .Skip(page * ResultsPerPage)
         .Take(ResultsPerPage)
         .ToList();

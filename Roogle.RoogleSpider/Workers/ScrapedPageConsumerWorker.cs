@@ -85,8 +85,10 @@ namespace Roogle.RoogleSpider.Workers
       // Calculate new page hash and check if it's been updated
       // If it hasn't changed, update everything
       int pageHash = CalculatePageHash(scrapedPage);
+      Log.Error("Checking if page changed");
       if (pageHash != page.PageHash)
       {
+        Log.Error("Page changed, updating contents");
         page.ContentType = scrapedPage.ContentType;
         page.Title = scrapedPage.Title;
         page.Contents = scrapedPage.Contents;
