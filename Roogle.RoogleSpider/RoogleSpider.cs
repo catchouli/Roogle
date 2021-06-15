@@ -42,10 +42,15 @@ namespace Roogle.RoogleSpider
 
           // Add configuration provided by appsettings.json
           IHostEnvironment env = hostingContext.HostingEnvironment;
+          string appsettingsName = $"appsettings.{env.EnvironmentName}.json";
+          Log.Information("Starting environment {env}, loading {appsettingsName}", env.EnvironmentName, appsettingsName);
           configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true);
+            .AddJsonFile(appsettingsName, true, true);
           var config = configuration.Build();
           services.AddSingleton<IConfiguration>(config);
+
+          Log.Information("Configuration values:");
+          Log.Information(config.GetDebugView());
 
           // Add mysql
           var connString = config.GetConnectionString("DefaultConnection");
