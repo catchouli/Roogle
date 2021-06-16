@@ -76,6 +76,7 @@ namespace Roogle.RoogleSpider
           services.AddSingleton<IPageRankerService, PageRankerService>();
           services.AddSingleton<IPageIndexerService, PageIndexerService>();
           services.AddSingleton<ICanonicalUrlService, CanonicalUrlService>();
+          services.AddSingleton<IRobotsTxtService, RobotsTxtService>();
 
           // Build service provider
           var serviceProvider = services.BuildServiceProvider();
@@ -97,8 +98,8 @@ namespace Roogle.RoogleSpider
               Contents = "",
               PageHash = 0,
               PageRank = 0,
-              ExpiryTime = DateTime.Now,
-              UpdatedTime = DateTime.Now,
+              ExpiryTime = DateTime.MinValue,
+              UpdatedTime = DateTime.MinValue,
               PageRankUpdatedTime = DateTime.MinValue,
               ContentsChanged = false,
               StatusCode = 0

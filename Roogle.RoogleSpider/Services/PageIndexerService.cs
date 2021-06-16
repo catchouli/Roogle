@@ -14,9 +14,8 @@ namespace Roogle.RoogleSpider.Services
     /// <summary>
     /// Create a new page indexer service
     /// </summary>
-    /// <param name="configuration">The configuration</param>
     /// <param name="dbContext">The database context</param>
-    public PageIndexerService(IConfiguration configuration, RoogleSpiderDbContext dbContext)
+    public PageIndexerService(RoogleSpiderDbContext dbContext)
     {
       Worker = new PageIndexerWorker(CancellationTokenSource.Token, dbContext);
     }

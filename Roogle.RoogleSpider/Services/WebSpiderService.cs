@@ -16,11 +16,13 @@ namespace Roogle.RoogleSpider.Services
     /// <param name="pagesToScrapeQueue">The queue for receiving pages to scrape</param>
     /// <param name="pagesScrapedQueue">The queue for sending scraped pages back out</param>
     /// <param name="urlsDiscoveredQueue">The queue for sending discovered urls to</param>
+    /// <param name="throttleService">The throttle service</param>
+    /// <param name="robotsTxtService">The robots.txt service</param>
     public WebSpiderService(IRequestThrottleService throttleService, PagesToScrapeQueue pagesToScrapeQueue,
-      PagesScrapedQueue pagesScrapedQueue, LinksDiscoveredQueue urlsDiscoveredQueue)
+      PagesScrapedQueue pagesScrapedQueue, LinksDiscoveredQueue urlsDiscoveredQueue, IRobotsTxtService robotsTxtService)
     {
       Worker = new WebSpiderWorker(throttleService, CancellationTokenSource.Token,
-        pagesToScrapeQueue, pagesScrapedQueue, urlsDiscoveredQueue);
+        pagesToScrapeQueue, pagesScrapedQueue, urlsDiscoveredQueue, robotsTxtService);
     }
   }
 }

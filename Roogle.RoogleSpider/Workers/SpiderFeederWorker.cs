@@ -78,7 +78,10 @@ namespace Roogle.RoogleSpider.Workers
           int maxToSend = _maxItemsInQueue - _pagesToScrapeQueue.Queue.Count;
 
           // Request some items from the db
-          var expiredItems = _dbContext.Pages.Where(page => page.ExpiryTime < DateTime.Now).Take(maxToSend).ToList();
+          var expiredItems = _dbContext.Pages
+            .Where(page => page.ExpiryTime < DateTime.Now)
+            .Take(maxToSend)
+            .ToList();
 
           if (expiredItems.Any())
           {

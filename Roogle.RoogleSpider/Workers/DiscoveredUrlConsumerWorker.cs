@@ -102,8 +102,8 @@ namespace Roogle.RoogleSpider.Workers
           Title = "",
           PageHash = 0,
           PageRank = 0,
-          ExpiryTime = DateTime.Now,
-          UpdatedTime = DateTime.Now,
+          ExpiryTime = DateTime.MinValue,
+          UpdatedTime = DateTime.MinValue,
           PageRankUpdatedTime = DateTime.MinValue,
           ContentsChanged = false,
           StatusCode = 0

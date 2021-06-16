@@ -53,6 +53,11 @@ namespace Roogle.RoogleSpider.Workers
     private readonly IRequestThrottleService _throttleService;
 
     /// <summary>
+    /// The robots.txt service
+    /// </summary>
+    private readonly IRobotsTxtService _robotsTxtService;
+
+    /// <summary>
     /// The regex for trimming excess whitespace
     /// </summary>
     private readonly Regex _whitespaceRegex;
@@ -65,8 +70,10 @@ namespace Roogle.RoogleSpider.Workers
     /// <param name="pagesToScrapeQueue">The incoming queue for pages to scrape</param>
     /// <param name="pagesScrapedQueue">The outgoing queue for pages that have been scraped</param>
     /// <param name="urlsDiscoveredQueue">The outgoing queue for discovered urls</param>
+    /// <param name="robotsTxtService">The robots.txt service</param>
     public WebSpiderWorker(IRequestThrottleService throttleService, CancellationToken cancellationToken,
-      PagesToScrapeQueue pagesToScrapeQueue, PagesScrapedQueue pagesScrapedQueue, LinksDiscoveredQueue urlsDiscoveredQueue)
+      PagesToScrapeQueue pagesToScrapeQueue, PagesScrapedQueue pagesScrapedQueue, LinksDiscoveredQueue urlsDiscoveredQueue,
+      IRobotsTxtService robotsTxtService)
     {
       _throttleService = throttleService;
       _cancellationToken = cancellationToken;
@@ -74,6 +81,7 @@ namespace Roogle.RoogleSpider.Workers
       _pagesScrapedQueue = pagesScrapedQueue;
       _urlsDiscoveredQueue = urlsDiscoveredQueue;
       _whitespaceRegex = new Regex(@"\s+", RegexOptions.Compiled);
+      _robotsTxtService = robotsTxtService;
     }
 
     /// <summary>
@@ -109,6 +117,25 @@ namespace Roogle.RoogleSpider.Workers
       // Make request for the html
       try
       {
+        // Make robots.txt request
+        if (!_robotsTxtService.IsAllowedAccess(pageUrl))
+        {
+          Log.Information("Robots.txt disallows us to access {pageUrl}", pageUrl);
+
+          _pagesScrapedQueue.Queue.Enqueue(new ScrapedPage
+          {
+            Guid = pageGuid,
+            Url = pageUrl,
+            ContentType = "robots.txt denied",
+            Title = "",
+            Contents = "",
+            StatusCode = 0
+          });
+
+          return;
+        }
+
+        // Make page request
         _throttleService.IncRequests();
         var headerResponse = await new Url(pageUrl)
           .SendAsync(HttpMethod.Get, default, default,
