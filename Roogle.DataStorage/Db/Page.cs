@@ -73,5 +73,11 @@ namespace Roogle.RoogleSpider.Db
     /// </summary>
     [Required]
     public bool ContentsChanged { get; set; }
+
+    /// <summary>
+    /// The status code response
+    /// </summary>
+    [Required]
+    public int StatusCode { get; set; }
   }
 }

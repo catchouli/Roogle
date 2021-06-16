@@ -31,5 +31,10 @@ namespace Roogle.RoogleSpider.Models
     /// The page contents
     /// </summary>
     public string Contents { get; set; }
+
+    /// <summary>
+    /// The status code
+    /// </summary>
+    public int StatusCode { get; set; }
   }
 }

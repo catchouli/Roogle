@@ -34,6 +34,11 @@ namespace Roogle.RoogleSpider.Workers
     private readonly PagesScrapedQueue _pagesScrapedQueue;
 
     /// <summary>
+    /// The random number generato
+    /// </summary>
+    private readonly Random _rng = new Random();
+
+    /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="cancellationToken">The cancellation token for our worker thread proc</param>
@@ -99,10 +104,11 @@ namespace Roogle.RoogleSpider.Workers
         page.PageHash = pageHash;
         page.UpdatedTime = DateTime.Now;
         page.ContentsChanged = true;
+        page.StatusCode = scrapedPage.StatusCode;
       }
 
       // Update the expiry time regardless and save changes
-      page.ExpiryTime = DateTime.Now + _expireAfter;
+      page.ExpiryTime = DateTime.Now + _expireAfter + TimeSpan.FromSeconds(_rng.Next(-60, 60));
       _dbContext.Pages.Update(page);
       _dbContext.SaveChanges();
     }

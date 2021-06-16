@@ -129,7 +129,8 @@ namespace Roogle.RoogleSpider.Workers
             Url = pageUrl,
             ContentType = contentType,
             Title = filename,
-            Contents = ""
+            Contents = "",
+            StatusCode = headerResponse.StatusCode
           });
 
           return;
@@ -157,7 +158,8 @@ namespace Roogle.RoogleSpider.Workers
           Url = pageUrl,
           ContentType = contentType,
           Title = pageTitle,
-          Contents = pageContents
+          Contents = pageContents,
+          StatusCode = headerResponse.StatusCode
         });
 
         // Get all links and send them back to the urls discovered queue
@@ -169,9 +171,26 @@ namespace Roogle.RoogleSpider.Workers
           _urlsDiscoveredQueue.Queue.Enqueue((pageUrl, absoluteUrl));
         }
       }
+      catch (FlurlHttpTimeoutException e)
+      {
+        Log.Error("Request timeed out: {url}: {msg}", pageUrl, e.Message);
+      }
       catch (FlurlHttpException e)
       {
-        Log.Error("Encountered flurl exception {msg} when requesting {url}", e.Message, pageUrl);
+          _pagesScrapedQueue.Queue.Enqueue(new ScrapedPage
+          {
+            Guid = pageGuid,
+            Url = pageUrl,
+            ContentType = "",
+            Title = "",
+            Contents = "",
+            StatusCode = e.StatusCode ?? 0
+          });
+
+        if (e.StatusCode != null)
+          Log.Error("Recording status code {statusCode} for url {url}", e.StatusCode, pageUrl);
+        else
+          Log.Error("Encountered flurl exception {msg} when requesting {url}", e.Message, pageUrl);
       }
     }
 

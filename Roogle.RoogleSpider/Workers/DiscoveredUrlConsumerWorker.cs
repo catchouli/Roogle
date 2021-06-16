@@ -105,7 +105,8 @@ namespace Roogle.RoogleSpider.Workers
           ExpiryTime = DateTime.Now,
           UpdatedTime = DateTime.Now,
           PageRankUpdatedTime = DateTime.MinValue,
-          ContentsChanged = false
+          ContentsChanged = false,
+          StatusCode = 0
         });
         _dbContext.SaveChanges();
       }
