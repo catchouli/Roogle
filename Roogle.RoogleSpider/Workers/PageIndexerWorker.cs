@@ -51,7 +51,7 @@ namespace Roogle.RoogleSpider.Workers
         {
           Log.Information("Updating index for {pageUrl}", page.Url);
 
-          string fullContents = page.Title + " " + page.ContentsChanged;
+          string fullContents = page.Title + " " + page.Contents;
           string contentsNoPunctuation = _nonAlphanumericRegex.Replace(fullContents, " ").ToUpperInvariant();
           var words = contentsNoPunctuation.Split(' ').Where(word => !string.IsNullOrWhiteSpace(word)).ToHashSet();
 
