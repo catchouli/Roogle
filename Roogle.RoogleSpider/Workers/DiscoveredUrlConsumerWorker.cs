@@ -99,7 +99,7 @@ namespace Roogle.RoogleSpider.Workers
           Url = discoveredLink.To,
           ContentType = "",
           Contents = "",
-          Title = "",
+          Title = discoveredLink.To,
           PageHash = 0,
           PageRank = 0,
           ExpiryTime = DateTime.MinValue,

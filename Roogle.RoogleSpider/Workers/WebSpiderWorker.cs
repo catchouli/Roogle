@@ -142,7 +142,7 @@ namespace Roogle.RoogleSpider.Workers
             HttpCompletionOption.ResponseHeadersRead);
 
         if (!headerResponse.Headers.TryGetFirst("Content-Type", out string contentType) ||
-          !AllowedContentTypes.Contains(contentType))
+          !AllowedContentTypes.Any(type => contentType.StartsWith(type)))
         {
           Log.Information("Received non-html content type {contentType}", contentType);
 

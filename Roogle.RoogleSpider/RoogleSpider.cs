@@ -22,7 +22,7 @@ namespace Roogle.RoogleSpider
     /// <summary>
     /// The start page, in lieu of anything else
     /// </summary>
-    private const string StartPage = "https://index.talkhaus.com/";
+    private const string StartPage = "https://wiki.talkhaus.com/";
 
     /// <summary>
     /// Our entrypoint
@@ -94,7 +94,7 @@ namespace Roogle.RoogleSpider
               Id = Guid.NewGuid(),
               Url = StartPage,
               ContentType = "",
-              Title = "",
+              Title = StartPage,
               Contents = "",
               PageHash = 0,
               PageRank = 0,
