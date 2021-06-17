@@ -16,7 +16,8 @@ namespace Roogle.RoogleSpider
       "https://wiki.talkhaus.com/wiki/module:",
       "https://wiki.talkhaus.com/wiki/template:",
       "https://wiki.talkhaus.com/wiki/mediawiki:",
-      "https://wiki.talkhaus.com/images/"
+      "https://wiki.talkhaus.com/images/",
+      "https://search.talkhaus.com/"
     };
 
     /// <summary>
