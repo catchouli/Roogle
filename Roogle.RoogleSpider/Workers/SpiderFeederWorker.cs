@@ -3,6 +3,7 @@ using Roogle.RoogleSpider.Queues;
 using Roogle.RoogleSpider.Utils;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -77,9 +78,12 @@ namespace Roogle.RoogleSpider.Workers
         {
           int maxToSend = _maxItemsInQueue - _pagesToScrapeQueue.Queue.Count;
 
+          var queueContents = new HashSet<Guid>(_pagesToScrapeQueue.Queue.Select(item => item.Item1));
+
           // Request some items from the db
           var expiredItems = _dbContext.Pages
             .Where(page => page.ExpiryTime < DateTime.Now)
+            .Where(page => !queueContents.Contains(page.Id))
             .Take(maxToSend)
             .ToList();
 
