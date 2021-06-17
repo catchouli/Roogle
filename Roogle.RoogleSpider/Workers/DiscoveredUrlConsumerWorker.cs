@@ -83,6 +83,10 @@ namespace Roogle.RoogleSpider.Workers
     {
       Log.Information("Processing discovered url {discoveredLink}", discoveredLink);
 
+      // Ignore links that are too long
+      if (discoveredLink.To.Length > 250)
+        return;
+
       // Remove anchors and etc from the links so we don't end up with duplicates in the database
       discoveredLink.From = _urlService.CanonicalizeUrl(discoveredLink.From);
       discoveredLink.To = _urlService.CanonicalizeUrl(discoveredLink.To);

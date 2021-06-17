@@ -22,7 +22,7 @@ namespace Roogle.RoogleSpider
     /// <summary>
     /// The start page, in lieu of anything else
     /// </summary>
-    private const string StartPage = "https://wiki.talkhaus.com/";
+    private const string StartPage = "https://index.talkhaus.com/";
 
     /// <summary>
     /// Our entrypoint
@@ -67,7 +67,7 @@ namespace Roogle.RoogleSpider
           services.AddSingleton<LinksDiscoveredQueue>();
 
           // Add services
-          services.AddSingleton<IUrlCrawlerCondition>(new BaseHostUrlCrawlerCondition("talkhaus.com"));
+          services.AddSingleton<IUrlCrawlerCondition, RoogleLinkExcluder>();
           services.AddSingleton<IRequestThrottleService, RequestThrottleService>();
           services.AddSingleton<IWebSpiderService, WebSpiderService>();
           services.AddSingleton<ISpiderFeederService, SpiderFeederService>();
