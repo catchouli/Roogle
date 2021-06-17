@@ -1,4 +1,5 @@
 ﻿using Roogle.RoogleSpider.Utils;
+using System.Linq;
 
 namespace Roogle.RoogleSpider
 {
@@ -7,6 +8,14 @@ namespace Roogle.RoogleSpider
   /// </summary>
   public class RoogleLinkExcluder : IUrlCrawlerCondition
   {
+    private readonly string[] ExcludePrefixes = new[]
+    {
+      "https://wiki.talkhaus.com/index.php",
+      "https://wiki.talkhaus.com/wiki/special",
+      "https://wiki.talkhaus.com/wiki/module",
+      "https://wiki.talkhaus.com/wiki/template"
+    };
+
     /// <summary>
     /// The base condition to include talkhaus.com links
     /// </summary>
@@ -20,7 +29,7 @@ namespace Roogle.RoogleSpider
     public bool ShouldCrawl(string url)
     {
       // Exclude non-wiki-entry wiki links, it results in too many entries
-      if (url.StartsWith("https://wiki.talkhaus.com/") && !url.StartsWith("https://wiki.talkhaus.com/wiki/"))
+      if (ExcludePrefixes.Any(prefix => url.StartsWith(prefix)))
         return false;
 
       return _baseCondition.ShouldCrawl(url);
