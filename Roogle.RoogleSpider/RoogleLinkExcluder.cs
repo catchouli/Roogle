@@ -11,9 +11,10 @@ namespace Roogle.RoogleSpider
     private readonly string[] ExcludePrefixes = new[]
     {
       "https://wiki.talkhaus.com/index.php",
-      "https://wiki.talkhaus.com/wiki/special",
-      "https://wiki.talkhaus.com/wiki/module",
-      "https://wiki.talkhaus.com/wiki/template"
+      "https://wiki.talkhaus.com/api.php",
+      "https://wiki.talkhaus.com/wiki/special:",
+      "https://wiki.talkhaus.com/wiki/module:",
+      "https://wiki.talkhaus.com/wiki/template:"
     };
 
     /// <summary>
@@ -29,7 +30,7 @@ namespace Roogle.RoogleSpider
     public bool ShouldCrawl(string url)
     {
       // Exclude non-wiki-entry wiki links, it results in too many entries
-      if (ExcludePrefixes.Any(prefix => url.StartsWith(prefix)))
+      if (ExcludePrefixes.Any(prefix => url.ToLowerInvariant().StartsWith(prefix)))
         return false;
 
       return _baseCondition.ShouldCrawl(url);
