@@ -55,6 +55,11 @@ namespace Roogle.RoogleSpider.Workers
           Log.Information("Updating page rank for {pageUrl}", page.Url);
 
           page.PageRank = _dbContext.Links.Count(link => link.ToPage == page.Id);
+
+          // A quick hack - derank wiki pages significantly so that user sites show up higehr
+          if (page.Url.StartsWith("https://wiki.talkhaus.com"))
+            page.PageRank -= 1000000;
+
           page.PageRankUpdatedTime = DateTime.Now;
           _dbContext.Pages.Update(page);
           _dbContext.SaveChanges();
