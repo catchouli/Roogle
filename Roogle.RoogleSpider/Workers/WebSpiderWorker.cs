@@ -195,7 +195,8 @@ namespace Roogle.RoogleSpider.Workers
         {
           string linkHref = linkNode.Attributes["href"].Value;
           string absoluteUrl = GetAbsoluteUrl(pageUrl, linkHref);
-          _urlsDiscoveredQueue.Queue.Enqueue((pageUrl, absoluteUrl));
+          if (!_urlsDiscoveredQueue.Queue.Contains((pageUrl, absoluteUrl)))
+            _urlsDiscoveredQueue.Queue.Enqueue((pageUrl, absoluteUrl));
         }
       }
       catch (FlurlHttpTimeoutException e)
