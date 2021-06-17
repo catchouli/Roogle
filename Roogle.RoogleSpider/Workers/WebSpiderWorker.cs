@@ -175,7 +175,7 @@ namespace Roogle.RoogleSpider.Workers
         Log.Information("Page title: {pageTitle}", pageTitle);
 
         // Get page contents and trim extra whitespace using regex
-        var pageContents = doc.DocumentNode?.SelectSingleNode("//body")?.InnerText?.Trim() ?? "";
+        var pageContents = doc.DocumentNode?.SelectSingleNode("//body")?.InnerText?.Trim() ?? doc.DocumentNode?.InnerText ?? "";
         pageContents = _whitespaceRegex.Replace(pageContents, " ");
 
         // Send page data back to the pages scraped queue
