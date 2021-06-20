@@ -1,5 +1,6 @@
 ﻿using Roogle.RoogleSpider.Db;
 using Roogle.RoogleSpider.Queues;
+using Roogle.RoogleSpider.Services;
 using Roogle.RoogleSpider.Utils;
 using Serilog;
 using System;
@@ -18,6 +19,11 @@ namespace Roogle.RoogleSpider.Workers
     /// Max items to add to the queue at once
     /// </summary>
     private readonly int _maxItemsInQueue;
+
+    /// <summary>
+    /// The request throttle service
+    /// </summary>
+    private readonly IRequestThrottleService _throttleService;
 
     /// <summary>
     /// The expiry time for preventing us from sending the same page more than once
@@ -55,13 +61,14 @@ namespace Roogle.RoogleSpider.Workers
     /// <param name="pageExpiryTimeMinutes">The expiry time before which we want to recrawl a page</param>
     public SpiderFeederWorker(CancellationToken cancellationToken, RoogleSpiderDbContext dbContext,
       PagesToScrapeQueue pagesToScrapeQueue, LinksDiscoveredQueue urlsDiscoveredQueue, int maxItemsInCrawlQueue,
-      int pageExpiryTimeMinutes)
+      int pageExpiryTimeMinutes, IRequestThrottleService throttleService)
     {
       _cancellationToken = cancellationToken;
       _dbContext = dbContext;
       _pagesToScrapeQueue = pagesToScrapeQueue;
       _urlsDiscoveredQueue = urlsDiscoveredQueue;
       _maxItemsInQueue = maxItemsInCrawlQueue;
+      _throttleService = throttleService;
       _expireAfter = TimeSpan.FromMinutes(pageExpiryTimeMinutes);
     }
 
@@ -103,6 +110,7 @@ namespace Roogle.RoogleSpider.Workers
             _pagesToScrapeQueue.Queue.Enqueue((page.Id, page.Url));
           });
           _dbContext.SaveChanges();
+          _throttleService.IncRequests();
         }
 
         Thread.Sleep(1000);

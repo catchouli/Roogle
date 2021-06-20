@@ -19,10 +19,11 @@ namespace Roogle.RoogleSpider.Services
     /// <param name="dbContext">The database context</param>
     /// <param name="pagesScrapedQueue">The scraped pages queue</param>
     public ScrapedPageConsumerService(IConfiguration configuration, RoogleSpiderDbContext dbContext,
-      PagesScrapedQueue pagesScrapedQueue)
+      PagesScrapedQueue pagesScrapedQueue, IRequestThrottleService throttleService)
     {
       int pageExpiryTimeMinutes = configuration.GetValue<int>("PageExpiryTimeMinutes");
-      Worker = new ScrapedPageConsumerWorker(CancellationTokenSource.Token, dbContext, pagesScrapedQueue, pageExpiryTimeMinutes);
+      Worker = new ScrapedPageConsumerWorker(CancellationTokenSource.Token, dbContext,
+        pagesScrapedQueue, pageExpiryTimeMinutes, throttleService);
     }
   }
 }

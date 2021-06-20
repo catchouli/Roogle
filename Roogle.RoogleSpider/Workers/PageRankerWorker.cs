@@ -1,4 +1,5 @@
 ﻿using Roogle.RoogleSpider.Db;
+using Roogle.RoogleSpider.Services;
 using Serilog;
 using System;
 using System.Linq;
@@ -22,6 +23,11 @@ namespace Roogle.RoogleSpider.Workers
     private readonly RoogleSpiderDbContext _dbContext;
 
     /// <summary>
+    /// The request throttle service
+    /// </summary>
+    private readonly IRequestThrottleService _throttleService;
+
+    /// <summary>
     /// The expiry time for pageranks
     /// </summary>
     private readonly TimeSpan _pageRankExpiryTime;
@@ -33,10 +39,11 @@ namespace Roogle.RoogleSpider.Workers
     /// <param name="dbContext">The db context</param>
     /// <param name="pageRankExpiryTimeMinutes">The expiry time for page ranks</param>
     public PageRankerWorker(CancellationToken cancellationToken, RoogleSpiderDbContext dbContext,
-      int pageRankExpiryTimeMinutes)
+      int pageRankExpiryTimeMinutes, IRequestThrottleService throttleService)
     {
       _cancellationToken = cancellationToken;
       _dbContext = dbContext;
+      _throttleService = throttleService;
       _pageRankExpiryTime = TimeSpan.FromMinutes(pageRankExpiryTimeMinutes);
     }
 
@@ -63,6 +70,7 @@ namespace Roogle.RoogleSpider.Workers
           page.PageRankUpdatedTime = DateTime.Now;
           _dbContext.Pages.Update(page);
           _dbContext.SaveChanges();
+          _throttleService.IncRequests();
         }
 
         Thread.Sleep(100);

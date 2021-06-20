@@ -42,16 +42,23 @@ namespace Roogle.RoogleSpider.Workers
     private readonly ICanonicalUrlService _urlService;
 
     /// <summary>
+    /// The request throttle service
+    /// </summary>
+    private readonly IRequestThrottleService _throttleService;
+
+    /// <summary>
     /// Constructor
     /// </summary>
     public DiscoveredUrlConsumerWorker(CancellationToken cancellationToken, RoogleSpiderDbContext dbContext,
-      LinksDiscoveredQueue linksDiscoveredQueue, IUrlCrawlerCondition crawlerCondition, ICanonicalUrlService urlService)
+      LinksDiscoveredQueue linksDiscoveredQueue, IUrlCrawlerCondition crawlerCondition, ICanonicalUrlService urlService,
+      IRequestThrottleService throttleService)
     {
       _cancellationToken = cancellationToken;
       _dbContext = dbContext;
       _linksDiscoveredQueue = linksDiscoveredQueue;
       _crawlerCondition = crawlerCondition;
       _urlService = urlService;
+      _throttleService = throttleService;
     }
 
     /// <summary>
@@ -113,6 +120,7 @@ namespace Roogle.RoogleSpider.Workers
           StatusCode = 0
         });
         _dbContext.SaveChanges();
+        _throttleService.IncRequests();
       }
 
       // Get linked page ids
@@ -149,6 +157,7 @@ namespace Roogle.RoogleSpider.Workers
       }
 
       _dbContext.SaveChanges();
+      _throttleService.IncRequests();
     }
   }
 }

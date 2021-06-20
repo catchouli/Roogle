@@ -16,10 +16,10 @@ namespace Roogle.RoogleSpider.Services
     /// </summary>
     /// <param name="configuration">The configuration</param>
     /// <param name="dbContext">The database context</param>
-    public PageRankerService(IConfiguration configuration, RoogleSpiderDbContext dbContext)
+    public PageRankerService(IConfiguration configuration, RoogleSpiderDbContext dbContext, IRequestThrottleService throttleService)
     {
       int pageRankExpiryTimeMinutes = configuration.GetValue<int>("PageRankExpiryTimeMinutes");
-      Worker = new PageRankerWorker(CancellationTokenSource.Token, dbContext, pageRankExpiryTimeMinutes);
+      Worker = new PageRankerWorker(CancellationTokenSource.Token, dbContext, pageRankExpiryTimeMinutes, throttleService);
     }
   }
 }

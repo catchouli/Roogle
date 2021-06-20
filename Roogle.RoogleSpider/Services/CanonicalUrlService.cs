@@ -11,7 +11,6 @@ namespace Roogle.RoogleSpider.Services
     /// <returns>The fixed url</returns>
     public string CanonicalizeUrl(string url)
     {
-      url = url.ToLowerInvariant();
       url = RemoveAnchor(url);
       url = (new Uri(url)).AbsoluteUri;
       return url;

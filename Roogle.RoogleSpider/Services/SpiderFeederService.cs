@@ -20,12 +20,13 @@ namespace Roogle.RoogleSpider.Services
     /// <param name="pagesToScrapeQueue">The queue for receiving pages to scrape</param>
     /// <param name="urlsDiscoveredQueue">The queue for sending discovered urls to</param>
     public SpiderFeederService(IConfiguration configuration, RoogleSpiderDbContext dbContext,
-      PagesToScrapeQueue pagesToScrapeQueue, LinksDiscoveredQueue urlsDiscoveredQueue)
+      PagesToScrapeQueue pagesToScrapeQueue, LinksDiscoveredQueue urlsDiscoveredQueue,
+      IRequestThrottleService throttleService)
     {
       int maxItemsInCrawlQueue = configuration.GetValue<int>("MaxItemsInCrawlQueue");
       int pageExpiryTimeMinutes = configuration.GetValue<int>("PageExpiryTimeMinutes");
       Worker = new SpiderFeederWorker(CancellationTokenSource.Token, dbContext, pagesToScrapeQueue,
-        urlsDiscoveredQueue, maxItemsInCrawlQueue, pageExpiryTimeMinutes);
+        urlsDiscoveredQueue, maxItemsInCrawlQueue, pageExpiryTimeMinutes, throttleService);
     }
   }
 }

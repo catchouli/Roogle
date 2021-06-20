@@ -1,4 +1,5 @@
 ﻿using Roogle.RoogleSpider.Db;
+using Roogle.RoogleSpider.Services;
 using Serilog;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -22,6 +23,11 @@ namespace Roogle.RoogleSpider.Workers
     private readonly RoogleSpiderDbContext _dbContext;
 
     /// <summary>
+    /// The request throttle service
+    /// </summary>
+    private readonly IRequestThrottleService _throttleService;
+
+    /// <summary>
     /// The regex for stripping non-alphanumeric characters
     /// </summary>
     private readonly Regex _nonAlphanumericRegex = new Regex("[^A-z0-9]", RegexOptions.Compiled);
@@ -31,10 +37,12 @@ namespace Roogle.RoogleSpider.Workers
     /// </summary>
     /// <param name="cancellationToken">The cancellation token</param>
     /// <param name="dbContext">The db context</param>
-    public PageIndexerWorker(CancellationToken cancellationToken, RoogleSpiderDbContext dbContext)
+    public PageIndexerWorker(CancellationToken cancellationToken, RoogleSpiderDbContext dbContext,
+      IRequestThrottleService throttleService)
     {
       _cancellationToken = cancellationToken;
       _dbContext = dbContext;
+      _throttleService = throttleService;
     }
 
     /// <summary>
@@ -73,6 +81,8 @@ namespace Roogle.RoogleSpider.Workers
           _dbContext.Pages.Update(page);
 
           _dbContext.SaveChanges();
+          _throttleService.IncRequests();
+          _throttleService.IncRequests();
         }
 
         Thread.Sleep(100);

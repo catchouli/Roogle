@@ -1,6 +1,7 @@
 ﻿using Roogle.RoogleSpider.Db;
 using Roogle.RoogleSpider.Models;
 using Roogle.RoogleSpider.Queues;
+using Roogle.RoogleSpider.Services;
 using Serilog;
 using System;
 using System.Threading;
@@ -34,6 +35,11 @@ namespace Roogle.RoogleSpider.Workers
     private readonly PagesScrapedQueue _pagesScrapedQueue;
 
     /// <summary>
+    /// The request throttle service
+    /// </summary>
+    private readonly IRequestThrottleService _throttleService;
+
+    /// <summary>
     /// The random number generato
     /// </summary>
     private readonly Random _rng = new Random();
@@ -46,11 +52,12 @@ namespace Roogle.RoogleSpider.Workers
     /// <param name="pagesScrapedQueue">The queue for receiving scraped pages from the spider</param>
     /// <param name="pageExpiryTimeMinutes">The time after which we should expire cached scrape results</param>
     public ScrapedPageConsumerWorker(CancellationToken cancellationToken, RoogleSpiderDbContext dbContext,
-      PagesScrapedQueue pagesScrapedQueue, int pageExpiryTimeMinutes)
+      PagesScrapedQueue pagesScrapedQueue, int pageExpiryTimeMinutes, IRequestThrottleService throttleService)
     {
       _cancellationToken = cancellationToken;
       _dbContext = dbContext;
       _pagesScrapedQueue = pagesScrapedQueue;
+      _throttleService = throttleService;
       _expireAfter = TimeSpan.FromMinutes(pageExpiryTimeMinutes);
     }
 
@@ -111,6 +118,7 @@ namespace Roogle.RoogleSpider.Workers
       page.ExpiryTime = DateTime.Now + _expireAfter + TimeSpan.FromSeconds(_rng.Next(-60, 60));
       _dbContext.Pages.Update(page);
       _dbContext.SaveChanges();
+      _throttleService.IncRequests();
     }
 
     /// <summary>
