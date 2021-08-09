@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roogle.RoogleSpider", "Roog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roogle.DataStorage", "Roogle.DataStorage\Roogle.DataStorage.csproj", "{C631810B-6494-4674-96A8-09EBAC94B261}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roogle.RoogleFrontend", "Roogle.RoogleFrontend\Roogle.RoogleFrontend.csproj", "{96A3C106-9806-4FC1-A430-8727DBB666D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roogle.RoogleFrontend", "Roogle.RoogleFrontend\Roogle.RoogleFrontend.csproj", "{96A3C106-9806-4FC1-A430-8727DBB666D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roogle.RoogleBot", "Roogle.RoogleBot\Roogle.RoogleBot.csproj", "{2C849CC6-0FA5-4192-A7AE-A0D663929FAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{96A3C106-9806-4FC1-A430-8727DBB666D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96A3C106-9806-4FC1-A430-8727DBB666D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96A3C106-9806-4FC1-A430-8727DBB666D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C849CC6-0FA5-4192-A7AE-A0D663929FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C849CC6-0FA5-4192-A7AE-A0D663929FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C849CC6-0FA5-4192-A7AE-A0D663929FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C849CC6-0FA5-4192-A7AE-A0D663929FAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
