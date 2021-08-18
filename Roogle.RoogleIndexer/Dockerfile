@@ -5,16 +5,16 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["Roogle.RoogleSpider/Roogle.RoogleSpider.csproj", "Roogle.RoogleSpider/"]
-RUN dotnet restore "Roogle.RoogleSpider/Roogle.RoogleSpider.csproj"
+COPY ["Roogle.RoogleIndexer/Roogle.RoogleIndexer.csproj", "Roogle.RoogleIndexer/"]
+RUN dotnet restore "Roogle.RoogleIndexer/Roogle.RoogleIndexer.csproj"
 COPY . .
-WORKDIR "/src/Roogle.RoogleSpider"
-RUN dotnet build "Roogle.RoogleSpider.csproj" -c Release -o /app/build
+WORKDIR "/src/Roogle.RoogleIndexer"
+RUN dotnet build "Roogle.RoogleIndexer.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Roogle.RoogleSpider.csproj" -c Release -o /app/publish
+RUN dotnet publish "Roogle.RoogleIndexer.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Roogle.RoogleSpider.dll"]
+ENTRYPOINT ["dotnet", "Roogle.RoogleIndexer.dll"]

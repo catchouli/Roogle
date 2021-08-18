@@ -1,26 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Roogle.RoogleSpider.Db;
+using Roogle.RoogleSpiderFeeder;
 using Roogle.Shared;
-using Roogle.Shared.Queue;
 using Roogle.Shared.Services;
-using Serilog;
-using System;
 using System.Threading.Tasks;
 
 namespace Roogle.RoogleSpider
 {
   /// <summary>
-  /// The Roogle spider
+  /// The Roogle spider feeder
   /// </summary>
-  public class RoogleSpider
+  public class RoogleSpiderFeeder
   {
-    /// <summary>
-    /// The start page, in lieu of anything else
-    /// </summary>
-    private const string StartPage = "https://index.talkhaus.com/";
-
     /// <summary>
     /// Our entrypoint
     /// </summary>
@@ -34,17 +25,11 @@ namespace Roogle.RoogleSpider
             services.AddRoogleDatabase(config);
             services.AddRoogleQueue(config);
             services.AddSingleton<IRequestThrottleService, RequestThrottleService>();
-            services.AddSingleton<IWebSpiderService, WebSpiderService>();
-            services.AddSingleton<IRobotsTxtService, RobotsTxtService>();
+            services.AddSingleton<ISpiderFeederService, SpiderFeederService>();
           });
 
-          // Add seed url
-          serviceProvider.GetRequiredService<IQueueConnection>()
-            .CreateQueue("PagesToScrape")
-            .SendMessage(StartPage);
-
-          // Start web spider
-          serviceProvider.GetRequiredService<IWebSpiderService>().Start();
+          // Start spider feeder service
+          serviceProvider.GetRequiredService<ISpiderFeederService>().Start();
         }).Build();
 
       await host.RunAsync();

@@ -12,6 +12,61 @@ services:
       - roogle_db_user
       - roogle_db_pass
 
+  roogle.rooglepageconsumer:
+    image: ${DOCKER_REGISTRY-}rooglerooglepageconsumer
+    build:
+      context: .
+      dockerfile: Roogle.RooglePageConsumer/Dockerfile
+    networks:
+      - db-net
+    secrets:
+      - roogle_db_user
+      - roogle_db_pass
+
+  roogle.roogleurlconsumer:
+    image: ${DOCKER_REGISTRY-}roogleroogleurlconsumer
+    build:
+      context: .
+      dockerfile: Roogle.RoogleUrlConsumer/Dockerfile
+    networks:
+      - db-net
+    secrets:
+      - roogle_db_user
+      - roogle_db_pass
+
+  roogle.roogleindexer:
+    image: ${DOCKER_REGISTRY-}roogleroogleindexer
+    build:
+      context: .
+      dockerfile: Roogle.RoogleIndexer/Dockerfile
+    networks:
+      - db-net
+    secrets:
+      - roogle_db_user
+      - roogle_db_pass
+
+  roogle.rooglepageranker:
+    image: ${DOCKER_REGISTRY-}rooglerooglepageranker
+    build:
+      context: .
+      dockerfile: Roogle.RooglePageRanker/Dockerfile
+    networks:
+      - db-net
+    secrets:
+      - roogle_db_user
+      - roogle_db_pass
+
+  roogle.rooglespiderfeeder:
+    image: ${DOCKER_REGISTRY-}rooglerooglespiderfeeder
+    build:
+      context: .
+      dockerfile: Roogle.RoogleSpiderFeeder/Dockerfile
+    networks:
+      - db-net
+    secrets:
+      - roogle_db_user
+      - roogle_db_pass
+
   roogle.rooglefrontend:
     image: ${DOCKER_REGISTRY-}rooglerooglefrontend
     build:
@@ -32,6 +87,14 @@ services:
       MYSQL_ROOT_PASSWORD: password
     ports:
       - 3306:3306
+    networks:
+      - db-net
+
+  rabbit-mq:
+    image: rabbitmq:3.9-management
+    ports:
+      - "15672:15672" # ui port
+      - "5672:5672"
     networks:
       - db-net
 

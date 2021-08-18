@@ -3,24 +3,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Roogle.RoogleSpider.Db;
 using Roogle.Shared;
-using Roogle.Shared.Queue;
 using Roogle.Shared.Services;
 using Serilog;
-using System;
 using System.Threading.Tasks;
 
-namespace Roogle.RoogleSpider
+namespace Roogle.RooglePageConsumer
 {
   /// <summary>
-  /// The Roogle spider
+  /// The Roogle page consumer
   /// </summary>
-  public class RoogleSpider
+  public class RooglePageConsumer
   {
-    /// <summary>
-    /// The start page, in lieu of anything else
-    /// </summary>
-    private const string StartPage = "https://index.talkhaus.com/";
-
     /// <summary>
     /// Our entrypoint
     /// </summary>
@@ -34,17 +27,15 @@ namespace Roogle.RoogleSpider
             services.AddRoogleDatabase(config);
             services.AddRoogleQueue(config);
             services.AddSingleton<IRequestThrottleService, RequestThrottleService>();
-            services.AddSingleton<IWebSpiderService, WebSpiderService>();
-            services.AddSingleton<IRobotsTxtService, RobotsTxtService>();
+            services.AddSingleton<IScrapedPageConsumerService, ScrapedPageConsumerService>();
           });
 
-          // Add seed url
-          serviceProvider.GetRequiredService<IQueueConnection>()
-            .CreateQueue("PagesToScrape")
-            .SendMessage(StartPage);
+          // Run migrations, this app specifically is responsible for this since the db is shared between multiple apps
+          Log.Information("Running data migrations");
+          serviceProvider.GetRequiredService<RoogleSpiderDbContext>().Database.Migrate();
 
-          // Start web spider
-          serviceProvider.GetRequiredService<IWebSpiderService>().Start();
+          // Start page consumer service
+          serviceProvider.GetRequiredService<IScrapedPageConsumerService>().Start();
         }).Build();
 
       await host.RunAsync();

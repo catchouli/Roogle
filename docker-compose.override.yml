@@ -5,6 +5,26 @@ services:
     environment:
       - DOTNET_ENVIRONMENT=Development
 
+  roogle.roogleindexer:
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+
+  roogle.rooglespiderfeeder:
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+
+  roogle.rooglepageranker:
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+
+  roogle.rooglepageconsumer:
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+
+  roogle.roogleurlconsumer:
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+
   roogle.rooglefrontend:
     environment:
       - DOTNET_ENVIRONMENT=Development
