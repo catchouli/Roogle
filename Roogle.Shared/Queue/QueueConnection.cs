@@ -18,9 +18,9 @@ namespace Roogle.Shared.Queue
     /// <summary>
     /// Connect to rabbitmq
     /// </summary>
-    public QueueConnection()
+    public QueueConnection(string hostname, string username, string password)
     {
-      var factory = new ConnectionFactory() { HostName = "rabbit-mq" };
+      var factory = new ConnectionFactory() { HostName = hostname, UserName = username, Password = password };
       Connection = factory.CreateConnection();
       Channel = Connection.CreateModel();
     }

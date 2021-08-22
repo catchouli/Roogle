@@ -73,8 +73,11 @@ namespace Roogle.Shared
     /// <param name="config">The configuration</param>
     public static void AddRoogleQueue(this IServiceCollection services, IConfiguration config)
     {
-      // TODO: we could have the queue connection params come from the configuration
-      services.AddSingleton<IQueueConnection, QueueConnection>();
+      // TODO: we could have the queue connection url come from the configuration
+      var queueUser = File.ReadAllText("/run/secrets/roogle_queue_user");
+      var queuePass = File.ReadAllText("/run/secrets/roogle_queue_pass");
+
+      services.AddSingleton<IQueueConnection>(new QueueConnection("rabbit-mq", queueUser, queuePass));
     }
   }
 }

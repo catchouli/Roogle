@@ -11,6 +11,8 @@ services:
     secrets:
       - roogle_db_user
       - roogle_db_pass
+      - roogle_queue_user
+      - roogle_queue_pass
 
   roogle.rooglepageconsumer:
     image: ${DOCKER_REGISTRY-}rooglerooglepageconsumer
@@ -22,6 +24,8 @@ services:
     secrets:
       - roogle_db_user
       - roogle_db_pass
+      - roogle_queue_user
+      - roogle_queue_pass
 
   roogle.roogleurlconsumer:
     image: ${DOCKER_REGISTRY-}roogleroogleurlconsumer
@@ -33,6 +37,8 @@ services:
     secrets:
       - roogle_db_user
       - roogle_db_pass
+      - roogle_queue_user
+      - roogle_queue_pass
 
   roogle.roogleindexer:
     image: ${DOCKER_REGISTRY-}roogleroogleindexer
@@ -44,6 +50,8 @@ services:
     secrets:
       - roogle_db_user
       - roogle_db_pass
+      - roogle_queue_user
+      - roogle_queue_pass
 
   roogle.rooglepageranker:
     image: ${DOCKER_REGISTRY-}rooglerooglepageranker
@@ -55,6 +63,8 @@ services:
     secrets:
       - roogle_db_user
       - roogle_db_pass
+      - roogle_queue_user
+      - roogle_queue_pass
 
   roogle.rooglespiderfeeder:
     image: ${DOCKER_REGISTRY-}rooglerooglespiderfeeder
@@ -66,6 +76,8 @@ services:
     secrets:
       - roogle_db_user
       - roogle_db_pass
+      - roogle_queue_user
+      - roogle_queue_pass
 
   roogle.rooglefrontend:
     image: ${DOCKER_REGISTRY-}rooglerooglefrontend
@@ -79,6 +91,8 @@ services:
     secrets:
       - roogle_db_user
       - roogle_db_pass
+      - roogle_queue_user
+      - roogle_queue_pass
 
   mysql:
     image: mysql:5.7
@@ -106,3 +120,7 @@ secrets:
     file: ./Secrets/roogle_db_user.txt
   roogle_db_pass:
     file: ./Secrets/roogle_db_pass.txt
+  roogle_queue_user:
+    file: ./Secrets/roogle_queue_user.txt
+  roogle_queue_pass:
+    file: ./Secrets/roogle_queue_pass.txt
