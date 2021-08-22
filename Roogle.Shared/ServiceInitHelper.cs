@@ -58,8 +58,8 @@ namespace Roogle.Shared
     {
       // Add mysql
       var connString = config.GetConnectionString("DefaultConnection");
-      var dbUser = File.ReadAllText("/run/secrets/roogle_db_user");
-      var dbPass = File.ReadAllText("/run/secrets/roogle_db_pass");
+      var dbUser = File.ReadAllText("/run/secrets/roogle_db_user").Trim();
+      var dbPass = File.ReadAllText("/run/secrets/roogle_db_pass").Trim();
       connString = $"{connString};user={dbUser};password={dbPass}";
       services.AddDbContext<RoogleSpiderDbContext>(options =>
         options.UseMySql(connString, ServerVersion.AutoDetect(connString)),
@@ -74,8 +74,8 @@ namespace Roogle.Shared
     public static void AddRoogleQueue(this IServiceCollection services, IConfiguration config)
     {
       // TODO: we could have the queue connection url come from the configuration
-      var queueUser = File.ReadAllText("/run/secrets/roogle_queue_user");
-      var queuePass = File.ReadAllText("/run/secrets/roogle_queue_pass");
+      var queueUser = File.ReadAllText("/run/secrets/roogle_queue_user").Trim();
+      var queuePass = File.ReadAllText("/run/secrets/roogle_queue_pass").Trim();
 
       services.AddSingleton<IQueueConnection>(new QueueConnection("rabbit-mq", queueUser, queuePass));
     }
